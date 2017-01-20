@@ -1,3 +1,5 @@
-require 'identifier/uuid/controls'
+require 'consumer/controls'
 
-require 'consumer/postgres/controls/id'
+require 'consumer/postgres/controls/stream_name'
+
+require 'consumer/postgres/controls/consumer'
