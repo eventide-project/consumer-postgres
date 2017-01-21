@@ -5,5 +5,9 @@ module Consumer
         include ::Consumer
       end
     end
+
+    def configure
+      EventSource::Postgres::Get.configure self
+    end
   end
 end
