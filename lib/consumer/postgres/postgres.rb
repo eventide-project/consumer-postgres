@@ -6,8 +6,8 @@ module Consumer
       end
     end
 
-    def configure
-      EventSource::Postgres::Get.configure self
+    def configure(session: nil, batch_size: nil)
+      EventSource::Postgres::Get.configure self, session: session, batch_size: batch_size
     end
   end
 end
