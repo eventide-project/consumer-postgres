@@ -8,8 +8,6 @@ module Consumer
 
         class Example
           include ::Consumer::Postgres
-
-          stream Controls::StreamName.example
         end
       end
     end
