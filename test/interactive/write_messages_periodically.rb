@@ -13,9 +13,9 @@ logger = Log.get __FILE__
 
   event = Controls::EventData.example
 
-  write.(event, stream_name)
+  position = write.(event, stream_name)
 
-  logger.info "Wrote event (Stream Name: #{stream_name})"
+  logger.info "Wrote event (Stream Name: #{stream_name}, Position: #{position})"
 
   sleep Rational(period, 1000)
 end
