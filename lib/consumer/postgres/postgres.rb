@@ -6,8 +6,19 @@ module Consumer
       end
     end
 
-    def configure(session: nil, batch_size: nil)
-      EventSource::Postgres::Get.configure self, session: session, batch_size: batch_size
+    def configure(session: nil, batch_size: nil, position_store: nil)
+      EventSource::Postgres::Get.configure(
+        self,
+        session: session,
+        batch_size: batch_size
+      )
+
+      PositionStore.configure(
+        self,
+        stream_name,
+        position_store: position_store,
+        session: session
+      )
     end
   end
 end
