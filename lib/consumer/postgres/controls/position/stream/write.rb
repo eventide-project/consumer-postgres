@@ -7,7 +7,7 @@ module Consumer
             def self.call(stream_name=nil, position: nil)
               stream_name ||= StreamName::Position.example
 
-              message = Store::Message.example position: position
+              message = Store::Updated.example position: position
 
               Messaging::Postgres::Write.(message, stream_name)
 

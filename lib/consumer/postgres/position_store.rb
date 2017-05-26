@@ -5,21 +5,21 @@ module Consumer
 
       initializer :stream_name
 
-      dependency :read, EventSource::Postgres::Get::Last
-      dependency :session, EventSource::Postgres::Session
+      dependency :read, MessageStore::Postgres::Get::Last
+      dependency :session, MessageStore::Postgres::Session
       dependency :write, ::Messaging::Postgres::Write
 
       def self.build(stream_name, session: nil)
         position_stream_name = StreamName.get stream_name
 
         instance = new position_stream_name
-        EventSource::Postgres::Session.configure instance, session: session
+        MessageStore::Postgres::Session.configure instance, session: session
         instance.configure
         instance
       end
 
       def configure
-        EventSource::Postgres::Get::Last.configure(
+        MessageStore::Postgres::Get::Last.configure(
           self,
           session: session,
           attr_name: :read
@@ -29,17 +29,17 @@ module Consumer
       end
 
       def get
-        event_data = read.(stream_name)
+        message_data = read.(stream_name)
 
-        return nil if event_data.nil?
+        return nil if message_data.nil?
 
-        message = Messaging::Message::Import.(event_data, Messages::PositionUpdated)
+        message = Messaging::Message::Import.(message_data, Updated)
 
         message.position
       end
 
       def put(position)
-        message = Messages::PositionUpdated.new
+        message = Updated.new
         message.position = position
 
         write.(message, stream_name)

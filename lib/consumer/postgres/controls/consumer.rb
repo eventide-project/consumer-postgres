@@ -9,9 +9,9 @@ module Consumer
         class Incrementing
           include ::Consumer::Postgres
 
-          handler do |event_data|
-            logger.info { "Handled event (StreamName: #{event_data.stream_name}, GlobalPosition: #{event_data.global_position})" }
-            logger.debug { event_data.data.pretty_inspect }
+          handler do |message_data|
+            logger.info { "Handled message (StreamName: #{message_data.stream_name}, GlobalPosition: #{message_data.global_position})" }
+            logger.debug { message_data.data.pretty_inspect }
           end
         end
       end

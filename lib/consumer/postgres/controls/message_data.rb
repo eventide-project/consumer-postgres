@@ -1,7 +1,7 @@
 module Consumer
   module Postgres
     module Controls
-      EventData = ::Consumer::Controls::EventData
+      MessageData = ::Consumer::Controls::MessageData
     end
   end
 end

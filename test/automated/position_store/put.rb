@@ -11,9 +11,9 @@ context "Consumer Stream Position Store, Put Operation" do
   test "Position is written to consumer stream" do
     position_stream_name = Consumer::Postgres::PositionStore::StreamName.get stream_name
 
-    event_data = EventSource::Postgres::Get::Last.(position_stream_name)
+    message_data = MessageStore::Postgres::Get::Last.(position_stream_name)
 
-    read_position = event_data.data[:position]
+    read_position = message_data.data[:position]
 
     assert read_position == position
   end

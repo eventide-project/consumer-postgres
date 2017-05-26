@@ -6,7 +6,7 @@ context "Configuration" do
 
   stream_name = Controls::StreamName.example
 
-  session = EventSource::Postgres::Session.build
+  session = MessageStore::Postgres::Session.build
 
   consumer = Controls::Consumer::Example.build(
     stream_name,
@@ -46,15 +46,15 @@ context "Configuration" do
 
     context "Stream name" do
       test "Category" do
-        control_category = EventSource::Postgres::StreamName.get_category stream_name
-        category = EventSource::Postgres::StreamName.get_category position_store.stream_name
+        control_category = MessageStore::StreamName.get_category stream_name
+        category = MessageStore::StreamName.get_category position_store.stream_name
 
         assert category == "#{control_category}:position"
       end
 
       test "ID" do
-        control_id = EventSource::Postgres::StreamName.get_id stream_name
-        id = EventSource::Postgres::StreamName.get_id position_store.stream_name
+        control_id = MessageStore::StreamName.get_id stream_name
+        id = MessageStore::StreamName.get_id position_store.stream_name
 
         assert id == control_id
       end

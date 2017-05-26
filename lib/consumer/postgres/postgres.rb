@@ -7,7 +7,7 @@ module Consumer
     end
 
     def configure(session: nil, batch_size: nil, position_store: nil)
-      EventSource::Postgres::Get.configure(
+      MessageStore::Postgres::Get.configure(
         self,
         session: session,
         batch_size: batch_size
