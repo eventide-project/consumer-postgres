@@ -1,3 +1,3 @@
 source ./library-symlinks.sh
 
-symlink_lib 'consumer' 'postgres'
+symlink_lib 'postgres' 'consumer'
