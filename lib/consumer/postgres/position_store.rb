@@ -13,7 +13,7 @@ module Consumer
         position_stream_name = StreamName.get stream_name
 
         instance = new position_stream_name
-        MessageStore::Postgres::Session.configure instance, session: session
+        MessageStore::Postgres::Session.configure(instance, session: session)
         instance.configure
         instance
       end
@@ -25,7 +25,7 @@ module Consumer
           attr_name: :read
         )
 
-        Messaging::Postgres::Write.configure self, session: session
+        Messaging::Postgres::Write.configure(self, session: session)
       end
 
       def get
