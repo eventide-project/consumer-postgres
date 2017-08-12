@@ -41,6 +41,30 @@ context "Position Store" do
       end
     end
 
+    context "Consumer identifier given" do
+      context "Category" do
+        stream_name = 'someCategory'
+        identifier = 'someIdentifier'
+
+        position_stream_name = Consumer::Postgres::PositionStore::StreamName.get(stream_name, consumer_identifier: identifier)
+
+        test "Appends identifier" do
+          assert(position_stream_name == 'someCategory:position-someIdentifier')
+        end
+      end
+
+      context "Stream" do
+        stream_name = 'someStream-1'
+        identifier = 'someIdentifier'
+
+        position_stream_name = Consumer::Postgres::PositionStore::StreamName.get(stream_name, consumer_identifier: identifier)
+
+        test "Appends identifier" do
+          assert(position_stream_name == 'someStream:position-1-someIdentifier')
+        end
+      end
+    end
+
     context "Stream name contains other types" do
       other_type = 'someType'
 
