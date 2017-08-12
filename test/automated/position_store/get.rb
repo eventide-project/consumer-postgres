@@ -4,11 +4,11 @@ context "Consumer Stream Position Store, Get Operation" do
   context "Previous position is not recorded" do
     stream_name = Controls::StreamName.example
 
-    position_store = Consumer::Postgres::PositionStore.build stream_name
+    position_store = Consumer::Postgres::PositionStore.build(stream_name)
     position = position_store.get
 
     test "No stream is returned" do
-      assert position == nil
+      assert(position == nil)
     end
   end
 
@@ -18,11 +18,11 @@ context "Consumer Stream Position Store, Get Operation" do
     stream_name = Controls::Position::Stream::Write.(position: position)
 
     context do
-      position_store = Consumer::Postgres::PositionStore.build stream_name
+      position_store = Consumer::Postgres::PositionStore.build(stream_name)
       read_position = position_store.get
 
       test "Recorded position is returned" do
-        assert read_position == position
+        assert(read_position == position)
       end
     end
 
@@ -31,11 +31,11 @@ context "Consumer Stream Position Store, Get Operation" do
 
       Controls::Position::Stream::Write.(stream_name, position: next_position)
 
-      position_store = Consumer::Postgres::PositionStore.build stream_name
+      position_store = Consumer::Postgres::PositionStore.build(stream_name)
       position = position_store.get
 
       test "Position of most recent update is returned" do
-        assert position == next_position
+        assert(position == next_position)
       end
     end
   end
