@@ -14,6 +14,12 @@ module Consumer
             logger.debug { message_data.data.pretty_inspect }
           end
         end
+
+        class Identifier
+          include ::Consumer::Postgres
+
+          identifier Controls::Identifier.example
+        end
       end
     end
   end

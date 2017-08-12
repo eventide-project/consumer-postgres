@@ -17,6 +17,7 @@ module Consumer
         self,
         stream_name,
         position_store: position_store,
+        consumer_identifier: identifier,
         session: session
       )
     end

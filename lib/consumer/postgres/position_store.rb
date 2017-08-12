@@ -9,8 +9,8 @@ module Consumer
       dependency :session, MessageStore::Postgres::Session
       dependency :write, ::Messaging::Postgres::Write
 
-      def self.build(stream_name, session: nil)
-        position_stream_name = StreamName.get stream_name
+      def self.build(stream_name, session: nil, consumer_identifier: nil)
+        position_stream_name = StreamName.get(stream_name, consumer_identifier: consumer_identifier)
 
         instance = new position_stream_name
         MessageStore::Postgres::Session.configure(instance, session: session)
