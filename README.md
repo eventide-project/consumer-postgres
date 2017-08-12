@@ -6,6 +6,10 @@
 class SomeConsumer
   include Consumer::Postgres
 
+  # Optional identifier that allows multiple consumers to maintain their
+  # position offsets independently
+  identifier 'someConsumerName'
+
   # Specifies a handler implementation for handling messages
   handler SomeHandler
 
