@@ -23,7 +23,7 @@ module Consumer
 
               position_type = 'position'
 
-              MessageStore::StreamName.stream_name category, type: position_type
+              MessageStore::StreamName.stream_name(category, type: position_type)
             end
           end
         end

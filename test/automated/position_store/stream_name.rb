@@ -5,9 +5,9 @@ context "Position Store" do
     stream_id = Controls::ID.example
 
     context "Stream" do
-      stream_name = Controls::StreamName.example id: stream_id, randomize_category: false
+      stream_name = Controls::StreamName.example(id: stream_id, randomize_category: false)
 
-      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.get stream_name
+      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.get(stream_name)
 
       test do
         control_stream_name = Controls::StreamName::Position.example(
@@ -15,38 +15,38 @@ context "Position Store" do
           randomize_category: false
         )
 
-        assert position_store_stream_name == control_stream_name
+        assert(position_store_stream_name == control_stream_name)
       end
     end
 
     context "Category" do
       stream_name = Controls::Category.example
 
-      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.get stream_name
+      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.get(stream_name)
 
       test do
-        control_stream_name = Controls::StreamName::Position::Category.example category: stream_name
+        control_stream_name = Controls::StreamName::Position::Category.example(category: stream_name)
 
-        assert position_store_stream_name == control_stream_name
+        assert(position_store_stream_name == control_stream_name)
       end
     end
 
     context "Stream name already includes position type" do
       stream_name = Controls::StreamName::Position.example
 
-      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.get stream_name
+      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.get(stream_name)
 
       test do
-        assert position_store_stream_name == stream_name
+        assert(position_store_stream_name == stream_name)
       end
     end
 
     context "Stream name contains other types" do
       other_type = 'someType'
 
-      stream_name = Controls::StreamName.example id: stream_id, randomize_category: false, type: other_type
+      stream_name = Controls::StreamName.example(id: stream_id, randomize_category: false, type: other_type)
 
-      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.get stream_name
+      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.get(stream_name)
 
       test do
         control_stream_name = Controls::StreamName::Position.example(
@@ -55,7 +55,7 @@ context "Position Store" do
           types: [other_type]
         )
 
-        assert position_store_stream_name == control_stream_name
+        assert(position_store_stream_name == control_stream_name)
       end
     end
   end

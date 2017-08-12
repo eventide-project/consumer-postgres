@@ -20,13 +20,13 @@ context "Configuration" do
 
     context "Batch size" do
       test "Is set" do
-        assert get.batch_size == batch_size
+        assert(get.batch_size == batch_size)
       end
     end
 
     context "Session" do
       test "Is set" do
-        assert get.session.equal?(session)
+        assert(get.session.equal?(session))
       end
     end
   end
@@ -35,28 +35,28 @@ context "Configuration" do
     position_store = consumer.position_store
 
     test "Is configured" do
-      assert position_store.instance_of?(Consumer::Postgres::PositionStore)
+      assert(position_store.instance_of?(Consumer::Postgres::PositionStore))
     end
 
     context "Session" do
       test "Is set" do
-        assert position_store.session.equal?(session)
+        assert(position_store.session.equal?(session))
       end
     end
 
     context "Stream name" do
       test "Category" do
-        control_category = MessageStore::StreamName.get_category stream_name
-        category = MessageStore::StreamName.get_category position_store.stream_name
+        control_category = MessageStore::StreamName.get_category(stream_name)
+        category = MessageStore::StreamName.get_category(position_store.stream_name)
 
-        assert category == "#{control_category}:position"
+        assert(category == "#{control_category}:position")
       end
 
       test "ID" do
-        control_id = MessageStore::StreamName.get_id stream_name
-        id = MessageStore::StreamName.get_id position_store.stream_name
+        control_id = MessageStore::StreamName.get_id(stream_name)
+        id = MessageStore::StreamName.get_id(position_store.stream_name)
 
-        assert id == control_id
+        assert(id == control_id)
       end
     end
   end
