@@ -40,4 +40,4 @@ See the [documentation](https://github.com/eventide-project/component-host) for 
 
 ## License
 
-The `consumer-postgres` library is released under the [MIT License](https://github.com/eventide-project/consumer/blob/master/MIT-License.txt).
+The `consumer-postgres` library is released under the [MIT License](https://github.com/eventide-project/consumer-postgres/blob/master/MIT-License.txt).
