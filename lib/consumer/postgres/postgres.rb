@@ -6,11 +6,12 @@ module Consumer
       end
     end
 
-    def configure(session: nil, batch_size: nil, position_store: nil)
+    def configure(session: nil, batch_size: nil, position_store: nil, condition: nil)
       MessageStore::Postgres::Get.configure(
         self,
-        session: session,
-        batch_size: batch_size
+        batch_size: batch_size,
+        condition: condition,
+        session: session
       )
 
       PositionStore.configure(

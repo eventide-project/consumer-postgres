@@ -10,9 +10,12 @@ if identifier = ENV['IDENTIFIER']
   end
 end
 
+condition = ENV['CONDITION']
+
 Actor::Supervisor.start do
   Controls::Consumer::Incrementing.start(
     category,
+    condition: condition,
     position_update_interval: position_update_interval
   )
 end
