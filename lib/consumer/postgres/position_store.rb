@@ -33,13 +33,13 @@ module Consumer
 
         return nil if message_data.nil?
 
-        message = Messaging::Message::Import.(message_data, Updated)
+        message = Messaging::Message::Import.(message_data, Recorded)
 
         message.position
       end
 
       def put(position)
-        message = Updated.new
+        message = Recorded.new
         message.position = position
 
         write.(message, stream_name)

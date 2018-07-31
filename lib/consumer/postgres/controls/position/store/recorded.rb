@@ -3,11 +3,11 @@ module Consumer
     module Controls
       module Position
         module Store
-          module Updated
+          module Recorded
             def self.example(position: nil)
               position ||= Position.example
 
-              message = PositionStore::Updated.new
+              message = PositionStore::Recorded.new
               message.position = position
               message
             end

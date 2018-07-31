@@ -1,7 +1,7 @@
 module Consumer
   module Postgres
     class PositionStore
-      class Updated
+      class Recorded
         include Messaging::Message
 
         attribute :position, Integer
