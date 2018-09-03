@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = 'evt-consumer-postgres'
-  s.version = '0.4.0.0'
+  s.version = '0.4.0.1'
   s.summary = 'Postgres implementation of continuous subscription to a stream and message dispatching to handlers'
   s.description = ' '
 
