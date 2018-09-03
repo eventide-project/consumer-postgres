@@ -1,3 +1,7 @@
+# consumer-postgres
+
+A consumer continuously reads messages from a single stream and dispatches the messages to the handlers that have been registered to the consumer.
+
 ## Usage
 
 ### Defining a Postgres Consumer Class
