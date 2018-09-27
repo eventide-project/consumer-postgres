@@ -6,13 +6,13 @@ context "Configuration" do
 
   stream_name = Controls::StreamName.example
 
-  session = MessageStore::Postgres::Session.build
+  settings = MessageStore::Postgres::Settings.instance
 
   consumer = Controls::Consumer::Example.build(
     stream_name,
     batch_size: batch_size,
     poll_interval_milliseconds: poll_interval_milliseconds,
-    session: session
+    settings: settings
   )
 
   context "Get" do
@@ -26,7 +26,11 @@ context "Configuration" do
 
     context "Session" do
       test "Is set" do
-        assert(get.session.equal?(session))
+        assert(get.session.instance_of?(consumer.session.class))
+      end
+
+      test "Assigned a different session from consumer" do
+        refute(get.session.equal?(consumer.session))
       end
     end
   end
@@ -39,8 +43,8 @@ context "Configuration" do
     end
 
     context "Session" do
-      test "Is set" do
-        assert(position_store.session.equal?(session))
+      test "Is set to that of consumer" do
+        assert(position_store.session.equal?(consumer.session))
       end
     end
 
