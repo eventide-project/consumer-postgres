@@ -2,7 +2,7 @@ require_relative './automated_init'
 
 context "Configuration" do
   batch_size = 11
-  cycle_timeout_milliseconds = 1111
+  poll_interval_milliseconds = 1111
 
   stream_name = Controls::StreamName.example
 
@@ -11,7 +11,7 @@ context "Configuration" do
   consumer = Controls::Consumer::Example.build(
     stream_name,
     batch_size: batch_size,
-    cycle_timeout_milliseconds: cycle_timeout_milliseconds,
+    poll_interval_milliseconds: poll_interval_milliseconds,
     session: session
   )
 
