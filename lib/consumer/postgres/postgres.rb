@@ -6,20 +6,23 @@ module Consumer
       end
     end
 
-    def configure(batch_size: nil, session: nil, position_store: nil, condition: nil)
+    def configure(batch_size: nil, settings: nil, condition: nil)
+      MessageStore::Postgres::Session.configure(self, settings: settings)
+
+      session = self.session
+      PositionStore.configure(
+        self,
+        stream_name,
+        consumer_identifier: identifier,
+        session: session
+      )
+
+      get_session = MessageStore::Postgres::Session.build(settings: settings)
       MessageStore::Postgres::Get.configure(
         self,
         batch_size: batch_size,
         condition: condition,
-        session: session
-      )
-
-      PositionStore.configure(
-        self,
-        stream_name,
-        position_store: position_store,
-        consumer_identifier: identifier,
-        session: session
+        session: get_session
       )
     end
   end
