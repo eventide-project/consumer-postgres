@@ -4,6 +4,7 @@ module Consumer
       include Consumer::PositionStore
 
       Dependency.activate(self)
+      Initializer.activate(self)
 
       initializer :stream_name
 
