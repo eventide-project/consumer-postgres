@@ -3,6 +3,8 @@ module Consumer
     class PositionStore
       include Consumer::PositionStore
 
+      Dependency.activate(self)
+
       initializer :stream_name
 
       dependency :read, MessageStore::Postgres::Get::Last
