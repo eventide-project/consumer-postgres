@@ -2,9 +2,7 @@ module Consumer
   module Postgres
     class PositionStore
       include Consumer::PositionStore
-
-      Dependency.activate(self)
-      Initializer.activate(self)
+      include Initializer
 
       initializer :stream_name
 
