@@ -7,7 +7,7 @@ context "Position Store" do
     context "Stream" do
       stream_name = Controls::StreamName.example(id: stream_id, randomize_category: false)
 
-      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.get(stream_name)
+      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.position_stream_name(stream_name)
 
       test do
         control_stream_name = Controls::StreamName::Position.example(
@@ -22,7 +22,7 @@ context "Position Store" do
     context "Category" do
       stream_name = Controls::Category.example
 
-      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.get(stream_name)
+      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.position_stream_name(stream_name)
 
       test do
         control_stream_name = Controls::StreamName::Position::Category.example(category: stream_name)
@@ -34,7 +34,7 @@ context "Position Store" do
     context "Stream name already includes position type" do
       stream_name = Controls::StreamName::Position.example
 
-      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.get(stream_name)
+      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.position_stream_name(stream_name)
 
       test do
         assert(position_store_stream_name == stream_name)
@@ -46,7 +46,7 @@ context "Position Store" do
         stream_name = 'someCategory'
         identifier = 'someIdentifier'
 
-        position_stream_name = Consumer::Postgres::PositionStore::StreamName.get(stream_name, consumer_identifier: identifier)
+        position_stream_name = Consumer::Postgres::PositionStore::StreamName.position_stream_name(stream_name, consumer_identifier: identifier)
 
         test "Appends identifier" do
           assert(position_stream_name == 'someCategory:position-someIdentifier')
@@ -57,7 +57,7 @@ context "Position Store" do
         stream_name = 'someStream-1'
         identifier = 'someIdentifier'
 
-        position_stream_name = Consumer::Postgres::PositionStore::StreamName.get(stream_name, consumer_identifier: identifier)
+        position_stream_name = Consumer::Postgres::PositionStore::StreamName.position_stream_name(stream_name, consumer_identifier: identifier)
 
         test "Appends identifier" do
           assert(position_stream_name == 'someStream:position-1-someIdentifier')
@@ -70,7 +70,7 @@ context "Position Store" do
 
       stream_name = Controls::StreamName.example(id: stream_id, randomize_category: false, type: other_type)
 
-      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.get(stream_name)
+      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.position_stream_name(stream_name)
 
       test do
         control_stream_name = Controls::StreamName::Position.example(
