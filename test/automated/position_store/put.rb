@@ -9,7 +9,7 @@ context "Consumer Stream Position Store, Put Operation" do
   position_store.put(position)
 
   test "Position is written to consumer stream" do
-    position_stream_name = Consumer::Postgres::PositionStore::StreamName.get(stream_name)
+    position_stream_name = Consumer::Postgres::PositionStore::StreamName.position_stream_name(stream_name)
 
     message_data = MessageStore::Postgres::Get::Last.(position_stream_name)
 
