@@ -4,7 +4,7 @@ A consumer continuously reads messages from a single stream and dispatches the m
 
 ## Documentation
 
-See the [Consumer](http://docs.eventide-project.org/user-guide/consumers.html) user guide for more information.
+See the [Eventide documentation site](http://docs.eventide-project.org) for more information, examples, and user guides.
 
 ## License
 
