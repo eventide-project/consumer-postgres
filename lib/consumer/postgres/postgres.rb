@@ -6,10 +6,17 @@ module Consumer
       end
     end
 
+    def self.compose_condition(correlation: nil)
+      return nil if correlation.nil?
+
+      "metadata->>'correlationStreamName' like '#{correlation}-%'"
+    end
+
     def configure(batch_size: nil, settings: nil, condition: nil)
       MessageStore::Postgres::Session.configure(self, settings: settings)
 
       session = self.session
+
       PositionStore.configure(
         self,
         stream_name,
