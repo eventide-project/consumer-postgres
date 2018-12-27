@@ -6,13 +6,9 @@ module Consumer
       end
     end
 
-    def self.compose_condition(correlation: nil)
-      return nil if correlation.nil?
+    def configure(batch_size: nil, settings: nil, correlation: nil, condition: nil)
+      composed_condition = Condition.compose(correlation: correlation, condition: condition)
 
-      "metadata->>'correlationStreamName' like '#{correlation}-%'"
-    end
-
-    def configure(batch_size: nil, settings: nil, condition: nil)
       MessageStore::Postgres::Session.configure(self, settings: settings)
 
       session = self.session
@@ -28,9 +24,43 @@ module Consumer
       MessageStore::Postgres::Get.configure(
         self,
         batch_size: batch_size,
-        condition: condition,
+        condition: composed_condition,
         session: get_session
       )
+    end
+
+    module Condition
+      extend self
+
+      def compose(condition: nil, correlation: nil)
+        composed_condition = []
+
+        unless condition.nil?
+          composed_condition << condition
+        end
+
+        unless correlation.nil?
+          Correlation.assure(correlation)
+
+          composed_condition << "metadata->>'correlationStreamName' like '#{correlation}-%'"
+        end
+
+        return nil if composed_condition.empty?
+
+        sql_condition = composed_condition.join(' AND ')
+
+        sql_condition
+      end
+    end
+
+    module Correlation
+      Error = Class.new(RuntimeError)
+
+      def self.assure(correlation)
+        unless MessageStore::StreamName.category?(correlation)
+          raise Correlation::Error, "Correlation must be a category (Correlation: #{correlation})"
+        end
+      end
     end
   end
 end

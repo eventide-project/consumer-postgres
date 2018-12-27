@@ -11,4 +11,5 @@ require 'consumer/postgres/controls/position/store/recorded'
 require 'consumer/postgres/controls/position/stream/write'
 require 'consumer/postgres/controls/stream_name'
 
+require 'consumer/postgres/controls/condition'
 require 'consumer/postgres/controls/consumer'
