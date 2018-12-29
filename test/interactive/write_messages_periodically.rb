@@ -6,10 +6,10 @@ write = MessageStore::Postgres::Write.build
 
 period = (ENV['PERIOD'] || 300).to_i
 
-logger = Log.get __FILE__
+logger = Log.get "Consumer Test"
 
 (1..4).to_a.cycle do |stream_id|
-  stream_name = MessageStore::StreamName.stream_name category, stream_id
+  stream_name = MessageStore::StreamName.stream_name(category, stream_id)
 
   message_data = Controls::MessageData.example
 

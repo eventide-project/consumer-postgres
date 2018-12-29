@@ -9,6 +9,14 @@ module Consumer
     def configure(batch_size: nil, settings: nil, correlation: nil, condition: nil)
       composed_condition = Condition.compose(correlation: correlation, condition: condition)
 
+      unless correlation.nil?
+        logger.info(tag: :*) { "Correlation: #{correlation}" }
+      end
+
+      unless composed_condition.nil?
+        logger.info(tag: :*) { "Condition: #{composed_condition}" }
+      end
+
       MessageStore::Postgres::Session.configure(self, settings: settings)
 
       session = self.session
