@@ -3,19 +3,39 @@ module Consumer
     def self.included(cls)
       cls.class_exec do
         include ::Consumer
+
+        attr_accessor :batch_size
+        attr_accessor :condition
+        attr_accessor :correlation
+        attr_accessor :composed_condition
+      end
+    end
+
+    def starting
+      unless batch_size.nil?
+        logger.info(tag: :*) { "Batch Size: #{batch_size}" }
+      end
+
+      unless correlation.nil?
+        logger.info(tag: :*) { "Correlation: #{correlation}" }
+      end
+
+      unless condition.nil?
+        logger.info(tag: :*) { "Condition: #{composed_condition}" }
+      end
+
+      unless composed_condition.nil?
+        logger.debug(tag: :*) { "Composed Condition: #{composed_condition}" }
       end
     end
 
     def configure(batch_size: nil, settings: nil, correlation: nil, condition: nil)
       composed_condition = Condition.compose(correlation: correlation, condition: condition)
 
-      unless correlation.nil?
-        logger.info(tag: :*) { "Correlation: #{correlation}" }
-      end
-
-      unless composed_condition.nil?
-        logger.info(tag: :*) { "Condition: #{composed_condition}" }
-      end
+      self.batch_size = batch_size
+      self.correlation = correlation
+      self.condition = condition
+      self.composed_condition = composed_condition
 
       MessageStore::Postgres::Session.configure(self, settings: settings)
 
