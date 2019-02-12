@@ -82,8 +82,8 @@ module Consumer
           raise Error, "#{error_message} Group member must not be less than 0. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
         end
 
-        if group_member > group_size
-          raise Error, "#{error_message} Group member must not be greater than group size. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
+        if group_member >= group_size
+          raise Error, "#{error_message} Group member must be at least one less than group size. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
         end
       end
     end

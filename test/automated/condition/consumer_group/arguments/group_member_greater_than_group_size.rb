@@ -6,7 +6,7 @@ context "Condition" do
       context "Group Member" do
         category = Consumer::Postgres::Controls::Category.example
 
-        context "Group Member is Greater Than Group Size" do
+        context "Group Member is Greater than Group Size" do
           start_consumer = proc do
             Controls::Consumer::Example.start(
               category,
