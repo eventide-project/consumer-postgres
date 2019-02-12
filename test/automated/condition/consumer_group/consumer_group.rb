@@ -1,8 +1,13 @@
 require_relative '../../automated_init'
 
+=begin
+- need both group_size and group_member
+=end
+
+__END__
 context "Condition" do
   context "Compose" do
-    context "Correlation" do
+    context "Consumer Group" do
       context "Specified" do
         correlation = "someCategory"
         control_condition = Controls::Condition::Correlation.example(category: correlation)

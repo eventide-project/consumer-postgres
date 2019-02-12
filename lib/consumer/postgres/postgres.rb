@@ -1,5 +1,7 @@
 module Consumer
   module Postgres
+    Error = Class.new(RuntimeError)
+
     def self.included(cls)
       cls.class_exec do
         include ::Consumer
@@ -21,6 +23,7 @@ module Consumer
       end
 
       unless condition.nil?
+        ## TODO Was this supposed to be condition rather than composed_condition?
         logger.info(tag: :*) { "Condition: #{composed_condition}" }
       end
 
@@ -29,7 +32,9 @@ module Consumer
       end
     end
 
-    def configure(batch_size: nil, settings: nil, correlation: nil, condition: nil)
+    def configure(batch_size: nil, settings: nil, correlation: nil, group_size: nil, group_member: nil, condition: nil)
+      AssureGroup.(group_size, group_member)
+
       composed_condition = Condition.compose(correlation: correlation, condition: condition)
 
       self.batch_size = batch_size
@@ -55,6 +60,32 @@ module Consumer
         condition: composed_condition,
         session: get_session
       )
+    end
+
+    module AssureGroup
+      def self.call(group_size, group_member)
+        error_message = 'Consumer group definition is incorrect.'
+
+        arguments_count = [group_size, group_member].compact.length
+
+        if arguments_count == 1
+          raise Error, "#{error_message} Group size and group member are both required. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
+        end
+
+        return if arguments_count == 0
+
+        if group_size < 1
+          raise Error, "#{error_message} Group size must not be less than 1. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
+        end
+
+        if group_member < 1
+          raise Error, "#{error_message} Group member must not be less than 1. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
+        end
+
+        if group_member > group_size
+          raise Error, "#{error_message} Group member must not be greater than group size. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
+        end
+      end
     end
 
     module Condition
