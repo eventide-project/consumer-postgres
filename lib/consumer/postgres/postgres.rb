@@ -5,8 +5,10 @@ module Consumer
         include ::Consumer
 
         attr_accessor :batch_size
-        attr_accessor :condition
         attr_accessor :correlation
+        attr_accessor :group_size
+        attr_accessor :group_member
+        attr_accessor :condition
         attr_accessor :composed_condition
       end
     end
@@ -20,9 +22,12 @@ module Consumer
         logger.info(tag: :*) { "Correlation: #{correlation}" }
       end
 
+      unless group_size.nil? && group_member.nil?
+        logger.info(tag: :*) { "Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect}" }
+      end
+
       unless condition.nil?
-        ## TODO Was this supposed to be condition rather than composed_condition?
-        logger.info(tag: :*) { "Condition: #{composed_condition}" }
+        logger.info(tag: :*) { "Condition: #{condition}" }
       end
 
       unless composed_condition.nil?
@@ -31,12 +36,12 @@ module Consumer
     end
 
     def configure(batch_size: nil, settings: nil, correlation: nil, group_size: nil, group_member: nil, condition: nil)
-      # Group.assure(group_size, group_member)
-
       composed_condition = Condition.compose(correlation: correlation, group_size: group_size, group_member: group_member, condition: condition)
 
       self.batch_size = batch_size
       self.correlation = correlation
+      self.group_size = group_size
+      self.group_member = group_member
       self.condition = condition
       self.composed_condition = composed_condition
 
@@ -58,34 +63,6 @@ module Consumer
         condition: composed_condition,
         session: get_session
       )
-    end
-
-    module Group
-      Error = Class.new(RuntimeError)
-
-      def self.assure(group_size, group_member)
-        error_message = 'Consumer group definition is incorrect.'
-
-        arguments_count = [group_size, group_member].compact.length
-
-        if arguments_count == 1
-          raise Error, "#{error_message} Group size and group member are both required. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
-        end
-
-        return if arguments_count == 0
-
-        if group_size < 1
-          raise Error, "#{error_message} Group size must not be less than 1. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
-        end
-
-        if group_member < 0
-          raise Error, "#{error_message} Group member must not be less than 0. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
-        end
-
-        if group_member >= group_size
-          raise Error, "#{error_message} Group member must be at least one less than group size. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
-        end
-      end
     end
 
     module Condition
@@ -122,6 +99,34 @@ module Consumer
       def self.assure(correlation)
         unless MessageStore::StreamName.category?(correlation)
           raise Correlation::Error, "Correlation must be a category (Correlation: #{correlation})"
+        end
+      end
+    end
+
+    module Group
+      Error = Class.new(RuntimeError)
+
+      def self.assure(group_size, group_member)
+        error_message = 'Consumer group definition is incorrect.'
+
+        arguments_count = [group_size, group_member].compact.length
+
+        if arguments_count == 1
+          raise Error, "#{error_message} Group size and group member are both required. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
+        end
+
+        return if arguments_count == 0
+
+        if group_size < 1
+          raise Error, "#{error_message} Group size must not be less than 1. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
+        end
+
+        if group_member < 0
+          raise Error, "#{error_message} Group member must not be less than 0. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
+        end
+
+        if group_member >= group_size
+          raise Error, "#{error_message} Group member must be at least one less than group size. (Group Size: #{group_size.inspect}, Group Member: #{group_member.inspect})"
         end
       end
     end
