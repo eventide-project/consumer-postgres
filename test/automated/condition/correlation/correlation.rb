@@ -8,7 +8,7 @@ context "Condition" do
 
       composed_condition = Consumer::Postgres::Condition.compose(correlation: correlation)
 
-      test "Is a JSON document query matching the correlation category" do
+      test "Is a JSON document query condition matching the correlation category" do
         assert(composed_condition == control_condition)
       end
     end

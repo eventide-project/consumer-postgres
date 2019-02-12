@@ -1,30 +1,25 @@
 require_relative '../../automated_init'
 
-=begin
-- need both group_size and group_member
-=end
-
-__END__
 context "Condition" do
-  context "Compose" do
-    context "Consumer Group" do
-      context "Specified" do
-        correlation = "someCategory"
-        control_condition = Controls::Condition::Correlation.example(category: correlation)
+  context "Consumer Group" do
+    context "Specified" do
+      group_size = 2
+      group_member = 0
 
-        composed_condition = Consumer::Postgres::Condition.compose(correlation: correlation)
+      control_condition = Controls::Condition::ConsumerGroup.example(group_size: group_size, group_member: group_member)
 
-        test "Is a JSON document query matching the correlation category" do
-          assert(composed_condition == control_condition)
-        end
+      composed_condition = Consumer::Postgres::Condition.compose(group_size: group_size, group_member: group_member)
+
+      test "Is a query condition matching the consumer group parameters" do
+        assert(composed_condition == control_condition)
       end
+    end
 
-      context "Not Specified" do
-        composed_condition = Consumer::Postgres::Condition.compose(correlation: nil)
+    context "Not Specified" do
+      composed_condition = Consumer::Postgres::Condition.compose(group_size: nil, group_member: nil)
 
-        test "Is nil" do
-          assert(composed_condition.nil?)
-        end
+      test "Is nil" do
+        assert(composed_condition.nil?)
       end
     end
   end
