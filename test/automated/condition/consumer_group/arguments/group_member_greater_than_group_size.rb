@@ -17,7 +17,7 @@ context "Condition" do
 
           test "Is an error" do
             assert start_consumer do
-              raises_error? Consumer::Postgres::Error
+              raises_error? Consumer::Postgres::Group::Error
             end
           end
         end

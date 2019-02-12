@@ -1,7 +1,5 @@
 module Consumer
   module Postgres
-    Error = Class.new(RuntimeError)
-
     def self.included(cls)
       cls.class_exec do
         include ::Consumer
@@ -33,7 +31,7 @@ module Consumer
     end
 
     def configure(batch_size: nil, settings: nil, correlation: nil, group_size: nil, group_member: nil, condition: nil)
-      AssureGroup.(group_size, group_member)
+      Group.assure(group_size, group_member)
 
       composed_condition = Condition.compose(correlation: correlation, condition: condition)
 
@@ -62,8 +60,10 @@ module Consumer
       )
     end
 
-    module AssureGroup
-      def self.call(group_size, group_member)
+    module Group
+      Error = Class.new(RuntimeError)
+
+      def self.assure(group_size, group_member)
         error_message = 'Consumer group definition is incorrect.'
 
         arguments_count = [group_size, group_member].compact.length
