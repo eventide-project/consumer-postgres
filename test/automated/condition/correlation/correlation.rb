@@ -4,6 +4,7 @@ context "Condition" do
   context "Correlation" do
     context "Specified" do
       correlation = "someCategory"
+
       control_condition = Controls::Condition::Correlation.example(category: correlation)
 
       composed_condition = Consumer::Postgres::Condition.compose(correlation: correlation)

@@ -31,9 +31,9 @@ module Consumer
     end
 
     def configure(batch_size: nil, settings: nil, correlation: nil, group_size: nil, group_member: nil, condition: nil)
-      Group.assure(group_size, group_member)
+      # Group.assure(group_size, group_member)
 
-      composed_condition = Condition.compose(correlation: correlation, condition: condition)
+      composed_condition = Condition.compose(correlation: correlation, group_size: group_size, group_member: group_member, condition: condition)
 
       self.batch_size = batch_size
       self.correlation = correlation
@@ -91,7 +91,7 @@ module Consumer
     module Condition
       extend self
 
-      def compose(condition: nil, correlation: nil)
+      def compose(condition: nil, correlation: nil, group_size: nil, group_member: nil)
         composed_condition = []
 
         unless condition.nil?
@@ -100,8 +100,12 @@ module Consumer
 
         unless correlation.nil?
           Correlation.assure(correlation)
-
           composed_condition << "metadata->>'correlationStreamName' like '#{correlation}-%'"
+        end
+
+        unless group_size.nil? && group_member.nil?
+          Group.assure(group_size, group_member)
+          composed_condition << "@hash_64(stream_name) % #{group_size} = #{group_member}"
         end
 
         return nil if composed_condition.empty?
