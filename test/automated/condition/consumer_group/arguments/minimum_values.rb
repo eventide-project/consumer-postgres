@@ -11,7 +11,7 @@ context "Condition" do
             Controls::Consumer::Example.start(
               category,
               group_size: 1,
-              group_member: 0
+              group_member: -1
             )
           end
 
@@ -27,7 +27,7 @@ context "Condition" do
             Controls::Consumer::Example.start(
               category,
               group_size: 0,
-              group_member: 1
+              group_member: 0
             )
           end
 
