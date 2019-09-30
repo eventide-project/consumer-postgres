@@ -59,6 +59,7 @@ module Consumer
       get_session = MessageStore::Postgres::Session.build(settings: settings)
       MessageStore::Postgres::Get.configure(
         self,
+        stream_name,
         batch_size: batch_size,
         condition: composed_condition,
         session: get_session
