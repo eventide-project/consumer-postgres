@@ -6,7 +6,7 @@ module Consumer
 
       initializer :stream_name
 
-      dependency :read, MessageStore::Postgres::Get::Last
+      dependency :read, MessageStore::Postgres::Get::Stream::Last
       dependency :session, MessageStore::Postgres::Session
       dependency :write, ::Messaging::Postgres::Write
 
@@ -20,7 +20,7 @@ module Consumer
       end
 
       def configure
-        MessageStore::Postgres::Get::Last.configure(
+        MessageStore::Postgres::Get::Stream::Last.configure(
           self,
           session: session,
           attr_name: :read

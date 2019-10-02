@@ -10,9 +10,6 @@ period = (ENV['PERIOD'] || 300).to_i
 category = ENV['CATEGORY'] || 'testPostgresConsumerGroup'
 logger.info "Category: #{category}"
 
-group_size = ENV['GROUP_SIZE'] || '2'
-logger.info "Group Size: #{group_size}"
-
 stream_names = [
   Controls::StreamName.example(category: category),
   Controls::StreamName.example(category: SecureRandom.hex)

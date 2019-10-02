@@ -11,7 +11,7 @@ logger = Log.get "Consumer Test"
 (1..4).to_a.cycle do |stream_id|
   stream_name = MessageStore::StreamName.stream_name(category, stream_id)
 
-  message_data = Controls::MessageData.example
+  message_data = Controls::MessageData::Write.example
 
   position = write.(message_data, stream_name)
 
