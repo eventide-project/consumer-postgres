@@ -6,8 +6,8 @@ context "Condition" do
       correlation = "someCategory-someId"
 
       test "Is an error" do
-        assert proc { Consumer::Postgres::Condition.compose(correlation: correlation) } do
-          raises_error? Consumer::Postgres::Correlation::Error
+        assert_raises Consumer::Postgres::Correlation::Error do
+          Consumer::Postgres::Condition.compose(correlation: correlation)
         end
       end
     end

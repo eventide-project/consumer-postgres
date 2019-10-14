@@ -7,17 +7,13 @@ context "Condition" do
         category = Consumer::Postgres::Controls::Category.example
 
         context "Group Member is Equal to Group Size" do
-          start_consumer = proc do
-            Controls::Consumer::Example.start(
-              category,
-              group_size: 1,
-              group_member: 2
-            )
-          end
-
           test "Is an error" do
-            assert start_consumer do
-              raises_error? Consumer::Postgres::Group::Error
+            assert_raises Consumer::Postgres::Group::Error do
+              Controls::Consumer::Example.start(
+                category,
+                group_size: 1,
+                group_member: 1
+              )
             end
           end
         end
