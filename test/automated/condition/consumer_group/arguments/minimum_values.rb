@@ -8,7 +8,7 @@ context "Condition" do
 
         context "Group Member is Less than 1" do
           test "Is an error" do
-            assert_raises Consumer::Postgres::Group::Error do
+            assert_raises(Consumer::Postgres::Group::Error) do
               Controls::Consumer::Example.start(
                 category,
                 group_size: 1,
@@ -20,7 +20,7 @@ context "Condition" do
 
         context "Group Size is Less than 1" do
           test "Is an error" do
-            assert_raises Consumer::Postgres::Group::Error do
+            assert_raises(Consumer::Postgres::Group::Error) do
               Controls::Consumer::Example.start(
                 category,
                 group_size: 0,

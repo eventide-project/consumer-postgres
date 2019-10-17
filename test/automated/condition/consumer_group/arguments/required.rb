@@ -9,7 +9,7 @@ context "Condition" do
         context "Group Size is Specified" do
           context "Group Member is Missing" do
             test "Is an error" do
-              assert_raises Consumer::Postgres::Group::Error do
+              assert_raises(Consumer::Postgres::Group::Error) do
                 Controls::Consumer::Example.start(
                   category,
                   group_size: 1
@@ -22,7 +22,7 @@ context "Condition" do
         context "Group Member is Specified" do
           context "Group Size is Missing" do
             test "Is an error" do
-              assert_raises Consumer::Postgres::Group::Error do
+              assert_raises(Consumer::Postgres::Group::Error) do
                 Controls::Consumer::Example.start(
                   category,
                   group_member: 1

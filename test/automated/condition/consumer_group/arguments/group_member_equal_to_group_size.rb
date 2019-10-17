@@ -8,7 +8,7 @@ context "Condition" do
 
         context "Group Member is Equal to Group Size" do
           test "Is an error" do
-            assert_raises Consumer::Postgres::Group::Error do
+            assert_raises(Consumer::Postgres::Group::Error) do
               Controls::Consumer::Example.start(
                 category,
                 group_size: 1,
