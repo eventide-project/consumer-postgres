@@ -91,17 +91,6 @@ module Consumer
       end
     end
 
-    module Correlation
-      Error = Class.new(RuntimeError)
-
-## TODO Move this to db
-      def self.assure(correlation)
-        unless MessageStore::StreamName.category?(correlation)
-          raise Correlation::Error, "Correlation must be a category (Correlation: #{correlation})"
-        end
-      end
-    end
-
     module Group
       Error = Class.new(RuntimeError)
 
