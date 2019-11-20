@@ -4,14 +4,16 @@ module Consumer
       module StreamName
         def self.position_stream_name(stream_name, consumer_identifier: nil)
           stream_id = MessageStore::StreamName.get_id(stream_name)
-          entity = MessageStore::StreamName.get_entity_name(stream_name)
+          entity_name = MessageStore::StreamName.get_entity_name(stream_name)
           type_list = MessageStore::StreamName.get_types(stream_name)
 
           position_type = Type.get
 
-          type_list << position_type unless type_list.include?(position_type)
+          if not type_list.include?(position_type)
+            type_list << position_type
+          end
 
-          unless consumer_identifier.nil?
+          if not consumer_identifier.nil?
             if stream_id.nil?
               stream_id = consumer_identifier
             else
@@ -20,7 +22,7 @@ module Consumer
           end
 
           MessageStore::StreamName.stream_name(
-            entity,
+            entity_name,
             stream_id,
             types: type_list
           )
