@@ -1,7 +1,7 @@
 require_relative '../automated_init'
 
 context "Condition" do
-  context "Get Dependency" do
+  context "Get" do
     stream_name = Controls::StreamName.example
 
     correlation = 'someCorrelation'

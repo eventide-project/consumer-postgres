@@ -9,7 +9,7 @@ module Consumer
         attr_accessor :group_member
         attr_accessor :group_size
         attr_accessor :condition
-        attr_accessor :composed_condition
+##        attr_accessor :composed_condition
       end
     end
 
@@ -30,20 +30,21 @@ module Consumer
         logger.info(tag: :*) { "Condition: #{condition}" }
       end
 
-      unless composed_condition.nil?
-        logger.debug(tag: :*) { "Composed Condition: #{composed_condition}" }
-      end
+##
+      # unless composed_condition.nil?
+      #   logger.debug(tag: :*) { "Composed Condition: #{composed_condition}" }
+      # end
     end
 
     def configure(batch_size: nil, settings: nil, correlation: nil, group_member: nil, group_size: nil, condition: nil)
-      composed_condition = Condition.compose(group_member: group_member, group_size: group_size, condition: condition)
+      ## composed_condition = Condition.compose(group_member: group_member, group_size: group_size, condition: condition)
 
       self.batch_size = batch_size
       self.correlation = correlation
       self.group_member = group_member
       self.group_size = group_size
       self.condition = condition
-      self.composed_condition = composed_condition
+##      self.composed_condition = composed_condition
 
       MessageStore::Postgres::Session.configure(self, settings: settings)
 
@@ -63,7 +64,10 @@ module Consumer
         stream_name,
         batch_size: batch_size,
         correlation: correlation,
-        condition: composed_condition,
+        consumer_group_member: group_member,
+        consumer_group_size: group_size,
+##        condition: composed_condition,
+        condition: condition,
         session: get_session
       )
     end
@@ -71,7 +75,7 @@ module Consumer
     module Condition
       extend self
 
-      def compose(condition: nil, group_member: nil, group_size: nil)
+      def ___compose(condition: nil, group_member: nil, group_size: nil)
         composed_condition = []
 
         unless condition.nil?
