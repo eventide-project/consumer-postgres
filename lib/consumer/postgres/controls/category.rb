@@ -8,9 +8,9 @@ module Consumer
           def self.example
             category = Controls::Category.example
 
-            types = ['position']
+            type = 'position'
 
-            MessageStore::StreamName.stream_name(category, types: types)
+            MessageStore::StreamName.stream_name(category, type: type)
           end
         end
       end
