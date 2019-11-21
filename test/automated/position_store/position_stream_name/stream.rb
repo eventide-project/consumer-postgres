@@ -37,7 +37,7 @@ context "Position Store" do
 
         control_stream_name = "#{stream_name}-#{identifier}"
 
-        test "Appends the identifier" do
+        test "Identifier is appended" do
           assert(position_stream_name == control_stream_name)
         end
       end

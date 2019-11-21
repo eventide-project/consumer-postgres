@@ -1,6 +1,6 @@
 require_relative 'automated_init'
 
-context "Consumer's Get Dependency" do
+context "Configured Dependencies" do
   stream_name = Controls::Category.example
 
   correlation = 'someCorrelation'
@@ -8,7 +8,13 @@ context "Consumer's Get Dependency" do
   group_member = 0
   group_size = 1
 
-  consumer = Controls::Consumer::Example.build(stream_name, correlation: correlation, group_member: group_member, group_size: group_size, condition: condition)
+  consumer = Controls::Consumer::Example.build(
+    stream_name,
+    correlation: correlation,
+    group_member: group_member,
+    group_size: group_size,
+    condition: condition
+  )
 
   get = consumer.get
 

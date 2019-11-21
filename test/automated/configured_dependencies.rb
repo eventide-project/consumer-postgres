@@ -1,15 +1,24 @@
 require_relative './automated_init'
 
 context "Configuration" do
+  stream_name = Controls::Category.example
+
+  correlation = 'someCorrelation'
+  condition = 'position = 0'
+  group_member = 0
+  group_size = 1
+
   batch_size = 11
   poll_interval_milliseconds = 1111
-
-  stream_name = Controls::StreamName.example
 
   settings = MessageStore::Postgres::Settings.instance
 
   consumer = Controls::Consumer::Example.build(
     stream_name,
+    correlation: correlation,
+    group_member: group_member,
+    group_size: group_size,
+    condition: condition,
     batch_size: batch_size,
     poll_interval_milliseconds: poll_interval_milliseconds,
     settings: settings
@@ -18,7 +27,37 @@ context "Configuration" do
   context "Get" do
     get = consumer.get
 
-    context "Batch size" do
+    context "Stream Name" do
+      test "Is set" do
+        assert(get.stream_name == stream_name)
+      end
+    end
+
+    context "Correlation" do
+      test "Is set" do
+        assert(get.correlation == correlation)
+      end
+    end
+
+    context "Group Member" do
+      test "Is set" do
+        assert(get.consumer_group_member == group_member)
+      end
+    end
+
+    context "Group Size" do
+      test "Is set" do
+        assert(get.consumer_group_size == group_size)
+      end
+    end
+
+    context "Condition" do
+      test "Is set" do
+        assert(get.condition == condition)
+      end
+    end
+
+    context "Batch Size" do
       test "Is set" do
         assert(get.batch_size == batch_size)
       end
@@ -43,7 +82,7 @@ context "Configuration" do
     end
 
     context "Session" do
-      test "Is set to that of consumer" do
+      test "Is set to the consumer's session" do
         assert(position_store.session.equal?(consumer.session))
       end
     end
