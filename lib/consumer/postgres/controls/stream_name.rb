@@ -5,7 +5,7 @@ module Consumer
 
       module StreamName
         module Position
-          def self.example(id: nil, category: nil, randomize_category: nil, types: nil)
+          def self.example(id: nil, category: nil, types: nil)
             category ||= Controls::Category.example(category: category)
             types ||= []
 
@@ -14,7 +14,6 @@ module Consumer
             StreamName.example(
               id: id,
               category: category,
-              randomize_category: randomize_category,
               types: types
             )
           end

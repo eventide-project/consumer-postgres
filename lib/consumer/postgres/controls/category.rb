@@ -6,7 +6,7 @@ module Consumer
       module Category
         module Position
           def self.example
-            category ||= Controls::Category.example(category: category)
+            category = Controls::Category.example
 
             types = ['position']
 
