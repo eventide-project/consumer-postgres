@@ -5,9 +5,9 @@ module Consumer
         module Stream
           module Write
             def self.call(stream_name=nil, position: nil)
-              stream_name ||= StreamName::Position.example
+              stream_name ||= Category::Position.example
 
-              message = Store::Recorded.example position: position
+              message = Store::Recorded.example(position: position)
 
               Messaging::Postgres::Write.(message, stream_name)
 
