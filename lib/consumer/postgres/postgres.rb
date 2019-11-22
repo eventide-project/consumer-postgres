@@ -1,5 +1,7 @@
 module Consumer
   module Postgres
+    Error = Class.new(RuntimeError)
+
     def self.included(cls)
       cls.class_exec do
         include ::Consumer
@@ -9,7 +11,6 @@ module Consumer
         attr_accessor :group_member
         attr_accessor :group_size
         attr_accessor :condition
-##        attr_accessor :composed_condition
       end
     end
 
@@ -32,6 +33,10 @@ module Consumer
     end
 
     def configure(batch_size: nil, settings: nil, correlation: nil, group_member: nil, group_size: nil, condition: nil)
+      if not MessageStore::StreamName.category?(stream_name)
+        raise Error, "Consumer's stream name must be a category (Stream Name: #{stream_name})"
+      end
+
       self.batch_size = batch_size
       self.correlation = correlation
       self.group_member = group_member
