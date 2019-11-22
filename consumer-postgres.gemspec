@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.name = 'evt-consumer-postgres'
   s.version = '1.1.0.0'
-  s.summary = 'Postgres implementation of continuous subscription to a stream and message dispatching to handlers'
+  s.summary = 'Postgres implementation of continuous subscription to a category and message dispatching to handlers'
   s.description = ' '
 
   s.authors = ['The Eventide Project']
