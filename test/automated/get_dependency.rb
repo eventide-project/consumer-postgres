@@ -1,7 +1,7 @@
 require_relative 'automated_init'
 
 context "Configured Dependencies" do
-  stream_name = Controls::Category.example
+  category = Controls::Category.example
 
   correlation = 'someCorrelation'
   condition = 'position = 0'
@@ -9,7 +9,7 @@ context "Configured Dependencies" do
   group_size = 1
 
   consumer = Controls::Consumer::Example.build(
-    stream_name,
+    category,
     correlation: correlation,
     group_member: group_member,
     group_size: group_size,

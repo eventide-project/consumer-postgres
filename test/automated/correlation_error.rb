@@ -1,4 +1,4 @@
-require_relative './automated_init'
+require_relative 'automated_init'
 
 context "Correlation Error" do
   context "Correlation is a Stream Rather than a Category" do

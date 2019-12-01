@@ -33,8 +33,8 @@ module Consumer
     end
 
     def configure(batch_size: nil, settings: nil, correlation: nil, group_member: nil, group_size: nil, condition: nil)
-      if not MessageStore::StreamName.category?(stream_name)
-        raise Error, "Consumer's stream name must be a category (Stream Name: #{stream_name})"
+      if not MessageStore::StreamName.category?(category)
+        raise Error, "Consumer's stream name must be a category (Stream Name: #{category})"
       end
 
       self.batch_size = batch_size
@@ -49,7 +49,7 @@ module Consumer
 
       PositionStore.configure(
         self,
-        stream_name,
+        category,
         consumer_identifier: identifier,
         session: session
       )
@@ -58,7 +58,7 @@ module Consumer
 
       MessageStore::Postgres::Get.configure(
         self,
-        stream_name,
+        category,
         batch_size: batch_size,
         correlation: correlation,
         consumer_group_member: group_member,

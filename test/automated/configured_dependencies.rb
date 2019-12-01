@@ -1,4 +1,4 @@
-require_relative './automated_init'
+require_relative 'automated_init'
 
 context "Configuration" do
   stream_name = Controls::Category.example
