@@ -33,10 +33,6 @@ module Consumer
     end
 
     def configure(batch_size: nil, settings: nil, correlation: nil, group_member: nil, group_size: nil, condition: nil)
-      if not MessageStore::StreamName.category?(category)
-        raise Error, "Consumer's stream name must be a category (Stream Name: #{category})"
-      end
-
       self.batch_size = batch_size
       self.correlation = correlation
       self.group_member = group_member
