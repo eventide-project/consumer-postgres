@@ -43,8 +43,7 @@ context "Position Store" do
 
       additional_type = 'someType'
 
-## should use category control, not stream name
-      stream_name = Controls::StreamName.example(id: :none, category: category, type: additional_type)
+      stream_name = Controls::Category.example(category: category, type: additional_type)
 
       position_stream_name = Consumer::Postgres::PositionStore::StreamName.position_stream_name(stream_name)
 
