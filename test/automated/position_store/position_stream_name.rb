@@ -5,22 +5,22 @@ context "Position Store" do
     context do
       category = Controls::Category.example
 
-      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.position_stream_name(category)
+      position_stream_name = Consumer::Postgres::PositionStore::StreamName.position_stream_name(category)
 
       control_stream_name = "#{category}:position"
 
       test "Includes the position category type" do
-        assert(position_store_stream_name == control_stream_name)
+        assert(position_stream_name == control_stream_name)
       end
     end
 
-    context "Stream name already includes position type" do
+    context "Category already includes position type" do
       category = Controls::Category::Position.example
 
-      position_store_stream_name = Consumer::Postgres::PositionStore::StreamName.position_stream_name(category)
+      position_stream_name = Consumer::Postgres::PositionStore::StreamName.position_stream_name(category)
 
       test "The position category type appears only once" do
-        assert(position_store_stream_name == category)
+        assert(position_stream_name == category)
       end
     end
 
@@ -38,19 +38,30 @@ context "Position Store" do
       end
     end
 
-    context "Stream name contains additional types" do
+    context "Category contains additional types" do
       category = Controls::Category.example
 
       additional_type = 'someType'
 
+## should use category control, not stream name
       stream_name = Controls::StreamName.example(id: :none, category: category, type: additional_type)
 
       position_stream_name = Consumer::Postgres::PositionStore::StreamName.position_stream_name(stream_name)
 
       control_stream_name = "#{category}:#{additional_type}+position"
 
-      test do
+      test "Additional types are preserved" do
         assert(position_stream_name == control_stream_name)
+      end
+    end
+
+    context "Stream name is given" do
+      stream_name = Controls::StreamName.example
+
+      test "Is an error" do
+        assert_raises(Consumer::Postgres::PositionStore::StreamName::Error) do
+          Consumer::Postgres::PositionStore::StreamName.position_stream_name(stream_name)
+        end
       end
     end
   end

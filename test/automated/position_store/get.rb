@@ -2,9 +2,9 @@ require_relative '../automated_init'
 
 context "Consumer Stream Position Store, Get Operation" do
   context "Previous position is not recorded" do
-    stream_name = Controls::StreamName.example
+    category = Controls::Category.example
 
-    position_store = Consumer::Postgres::PositionStore.build(stream_name)
+    position_store = Consumer::Postgres::PositionStore.build(category)
     position = position_store.get
 
     test "No stream is returned" do

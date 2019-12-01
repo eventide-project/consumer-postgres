@@ -2,7 +2,13 @@ module Consumer
   module Postgres
     class PositionStore
       module StreamName
+        Error = Class.new(RuntimeError)
+
         def self.position_stream_name(stream_name, consumer_identifier: nil)
+          if not MessageStore::StreamName.category?(stream_name)
+            raise Error, "Position store's stream name must be a category (Stream Name: #{stream_name})"
+          end
+
           stream_id = MessageStore::StreamName.get_id(stream_name)
           entity_name = MessageStore::StreamName.get_entity_name(stream_name)
           type_list = MessageStore::StreamName.get_types(stream_name)
