@@ -38,15 +38,7 @@ module Consumer
       self.condition = condition
 
       MessageStore::Postgres::Session.configure(self, settings: settings)
-
       session = self.session
-
-      PositionStore.configure(
-        self,
-        category,
-        consumer_identifier: identifier,
-        session: session
-      )
 
       get_session = MessageStore::Postgres::Session.build(settings: settings)
 
@@ -59,6 +51,13 @@ module Consumer
         consumer_group_size: group_size,
         condition: condition,
         session: get_session
+      )
+
+      PositionStore.configure(
+        self,
+        category,
+        consumer_identifier: identifier,
+        session: session
       )
     end
   end
