@@ -1,7 +1,5 @@
 module Consumer
   module Postgres
-    Error = Class.new(RuntimeError)
-
     def self.included(cls)
       cls.class_exec do
         include ::Consumer
