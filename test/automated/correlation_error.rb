@@ -1,6 +1,6 @@
 require_relative 'automated_init'
 
-context "Correlation Error" do
+context "Condition Error" do
   context "Correlation is a Stream Rather than a Category" do
     category = Controls::Category.example
     correlation = Controls::StreamName.example
