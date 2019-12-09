@@ -1,6 +1,6 @@
 # consumer-postgres
 
-A consumer continuously reads messages from a single stream and dispatches the messages to the handlers that have been registered to the consumer.
+A consumer continuously reads messages from a single category and dispatches the messages to the handlers that have been registered to the consumer
 
 ## Documentation
 
