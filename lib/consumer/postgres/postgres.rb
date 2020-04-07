@@ -21,12 +21,24 @@ module Consumer
         logger.info(tag: :*) { "Correlation: #{correlation}" }
       end
 
+      unless identifier.nil?
+        logger.info(tag: :*) { "Identifier: #{identifier}" }
+      end
+
       unless group_member.nil? && group_size.nil?
         logger.info(tag: :*) { "Group Member: #{group_member.inspect}, Group Size: #{group_size.inspect}" }
       end
 
       unless condition.nil?
         logger.info(tag: :*) { "Condition: #{condition}" }
+      end
+
+      unless poll_interval_milliseconds.nil?
+        logger.info(tag: :*) { "Poll Interval Milliseconds: #{poll_interval_milliseconds}" }
+      end
+
+      unless position_update_interval.nil?
+        logger.info(tag: :*) { "Position Update Interval: #{position_update_interval}" }
       end
     end
 
