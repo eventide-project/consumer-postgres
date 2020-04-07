@@ -40,6 +40,10 @@ module Consumer
       unless position_update_interval.nil?
         logger.info(tag: :*) { "Position Update Interval: #{position_update_interval}" }
       end
+
+      if identifier.nil? && !group_member.nil? && !group_size.nil?
+        raise Identifier::Error, 'Identifier must not be omitted when the consumer is a member of a group'
+      end
     end
 
     def configure(batch_size: nil, settings: nil, correlation: nil, group_member: nil, group_size: nil, condition: nil)
