@@ -8,7 +8,8 @@ context "Consumer Group Error" do
           Controls::Consumer::Example.start(
             'someCategory',
             group_member: 0,
-            group_size: 0
+            group_size: 0,
+            identifier: 'someIdentifier'
           )
         end
       end
@@ -22,7 +23,8 @@ context "Consumer Group Error" do
           Controls::Consumer::Example.start(
             'someCategory',
             group_member: 2,
-            group_size: 1
+            group_size: 1,
+            identifier: 'someIdentifier'
           )
         end
       end
@@ -36,7 +38,8 @@ context "Consumer Group Error" do
           Controls::Consumer::Example.start(
             'someCategory',
             group_member: -1,
-            group_size: 1
+            group_size: 1,
+            identifier: 'someIdentifier'
           )
         end
       end

@@ -1,6 +1,7 @@
 require 'consumer'
 
 require 'messaging/postgres'
+require 'consumer/postgres/identifier'
 
 require 'consumer/postgres/position_store'
 require 'consumer/postgres/position_store/recorded'
