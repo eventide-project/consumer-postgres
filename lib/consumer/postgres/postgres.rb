@@ -12,28 +12,32 @@ module Consumer
       end
     end
 
-    def starting
-      ## unless batch_size.nil?
-        ## logger.info(tag: :*) { "Batch Size: #{batch_size.inspect}" }
-      ## end
-      logger.debug(tag: :*) { "Batch Size: #{batch_size.inspect}" }
+    def print_startup_info
+      STDOUT.puts "      Batch Size: #{get.batch_size.inspect}"
 
-      ## unless correlation.nil?
-        ## logger.info(tag: :*) { "Correlation: #{correlation.inspect}" }
-      ## end
+      unless correlation.nil?
+        STDOUT.puts "      Correlation: #{correlation || '(none)'}"
+      end
+
+      unless group_member.nil? && group_size.nil?
+        STDOUT.puts "      Group Member: #{group_member.inspect}"
+        STDOUT.puts "      Group Size: #{group_size.inspect}"
+      end
+
+      unless condition.nil?
+        STDOUT.puts "      Condition: #{condition.inspect}"
+      end
+    end
+
+    def log_startup_info
+      logger.debug(tag: :*) { "Batch Size: #{get.batch_size.inspect}" }
       logger.debug(tag: :*) { "Correlation: #{correlation.inspect}" }
-
-      ## unless group_member.nil? && group_size.nil?
-        ## logger.info(tag: :*) { "Group Member: #{group_member.inspect}, Group Size: #{group_size.inspect}" }
-      ## end
       logger.debug(tag: :*) { "Group Member: #{group_member.inspect}" }
       logger.debug(tag: :*) { "Group Size: #{group_size.inspect}" }
-
-      ## unless condition.nil?
-        ## logger.info(tag: :*) { "Condition: #{condition.inspect}" }
-      ## end
       logger.debug(tag: :*) { "Condition: #{condition.inspect}" }
+    end
 
+    def starting
       if identifier.nil? && !group_member.nil? && !group_size.nil?
         raise Identifier::Error, 'Identifier must not be omitted when the consumer is a member of a group'
       end
