@@ -13,33 +13,26 @@ module Consumer
     end
 
     def starting
-      unless batch_size.nil?
-        logger.info(tag: :*) { "Batch Size: #{batch_size}" }
-      end
+      ## unless batch_size.nil?
+        ## logger.info(tag: :*) { "Batch Size: #{batch_size.inspect}" }
+      ## end
+      logger.debug(tag: :*) { "Batch Size: #{batch_size.inspect}" }
 
-      unless correlation.nil?
-        logger.info(tag: :*) { "Correlation: #{correlation}" }
-      end
+      ## unless correlation.nil?
+        ## logger.info(tag: :*) { "Correlation: #{correlation.inspect}" }
+      ## end
+      logger.debug(tag: :*) { "Correlation: #{correlation.inspect}" }
 
-      unless identifier.nil?
-        logger.info(tag: :*) { "Identifier: #{identifier}" }
-      end
+      ## unless group_member.nil? && group_size.nil?
+        ## logger.info(tag: :*) { "Group Member: #{group_member.inspect}, Group Size: #{group_size.inspect}" }
+      ## end
+      logger.debug(tag: :*) { "Group Member: #{group_member.inspect}" }
+      logger.debug(tag: :*) { "Group Size: #{group_size.inspect}" }
 
-      unless group_member.nil? && group_size.nil?
-        logger.info(tag: :*) { "Group Member: #{group_member.inspect}, Group Size: #{group_size.inspect}" }
-      end
-
-      unless condition.nil?
-        logger.info(tag: :*) { "Condition: #{condition}" }
-      end
-
-      unless poll_interval_milliseconds.nil?
-        logger.info(tag: :*) { "Poll Interval Milliseconds: #{poll_interval_milliseconds}" }
-      end
-
-      unless position_update_interval.nil?
-        logger.info(tag: :*) { "Position Update Interval: #{position_update_interval}" }
-      end
+      ## unless condition.nil?
+        ## logger.info(tag: :*) { "Condition: #{condition.inspect}" }
+      ## end
+      logger.debug(tag: :*) { "Condition: #{condition.inspect}" }
 
       if identifier.nil? && !group_member.nil? && !group_size.nil?
         raise Identifier::Error, 'Identifier must not be omitted when the consumer is a member of a group'
