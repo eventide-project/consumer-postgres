@@ -12,35 +12,28 @@ module Consumer
       end
     end
 
-    def starting
-      unless batch_size.nil?
-        logger.info(tag: :*) { "Batch Size: #{batch_size}" }
-      end
-
-      unless correlation.nil?
-        logger.info(tag: :*) { "Correlation: #{correlation}" }
-      end
-
-      unless identifier.nil?
-        logger.info(tag: :*) { "Identifier: #{identifier}" }
-      end
+    def print_startup_info
+      STDOUT.puts "      Correlation: #{correlation || '(none)'}"
 
       unless group_member.nil? && group_size.nil?
-        logger.info(tag: :*) { "Group Member: #{group_member.inspect}, Group Size: #{group_size.inspect}" }
+        STDOUT.puts "      Group Member: #{group_member.inspect}"
+        STDOUT.puts "      Group Size: #{group_size.inspect}"
       end
 
       unless condition.nil?
-        logger.info(tag: :*) { "Condition: #{condition}" }
+        STDOUT.puts "      Condition: #{condition.inspect || '(none)'}"
       end
+    end
 
-      unless poll_interval_milliseconds.nil?
-        logger.info(tag: :*) { "Poll Interval Milliseconds: #{poll_interval_milliseconds}" }
-      end
+    def log_startup_info
+      logger.info(tags: [:consumer, :start]) { "Correlation: #{correlation.inspect} (Consumer: #{self.class.name})" }
+      logger.info(tags: [:consumer, :start]) { "Batch Size: #{get.batch_size.inspect} (Consumer: #{self.class.name})" }
+      logger.info(tags: [:consumer, :start]) { "Group Member: #{group_member.inspect} (Consumer: #{self.class.name})" }
+      logger.info(tags: [:consumer, :start]) { "Group Size: #{group_size.inspect} (Consumer: #{self.class.name})" }
+      logger.info(tags: [:consumer, :start]) { "Condition: #{condition.inspect} (Consumer: #{self.class.name})" }
+    end
 
-      unless position_update_interval.nil?
-        logger.info(tag: :*) { "Position Update Interval: #{position_update_interval}" }
-      end
-
+    def starting
       if identifier.nil? && !group_member.nil? && !group_size.nil?
         raise Identifier::Error, 'Identifier must not be omitted when the consumer is a member of a group'
       end
