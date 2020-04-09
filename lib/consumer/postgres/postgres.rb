@@ -13,11 +13,7 @@ module Consumer
     end
 
     def print_startup_info
-      STDOUT.puts "      Batch Size: #{get.batch_size.inspect}"
-
-      unless correlation.nil?
-        STDOUT.puts "      Correlation: #{correlation || '(none)'}"
-      end
+      STDOUT.puts "      Correlation: #{correlation || '(none)'}"
 
       unless group_member.nil? && group_size.nil?
         STDOUT.puts "      Group Member: #{group_member.inspect}"
@@ -25,16 +21,16 @@ module Consumer
       end
 
       unless condition.nil?
-        STDOUT.puts "      Condition: #{condition.inspect}"
+        STDOUT.puts "      Condition: #{condition.inspect || '(none)'}"
       end
     end
 
     def log_startup_info
-      logger.info(tags: [:consumer, :start]) { "Batch Size: #{get.batch_size.inspect}" }
-      logger.info(tags: [:consumer, :start]) { "Correlation: #{correlation.inspect}" }
-      logger.info(tags: [:consumer, :start]) { "Group Member: #{group_member.inspect}" }
-      logger.info(tags: [:consumer, :start]) { "Group Size: #{group_size.inspect}" }
-      logger.info(tags: [:consumer, :start]) { "Condition: #{condition.inspect}" }
+      logger.info(tags: [:consumer, :start]) { "Correlation: #{correlation.inspect} (Consumer: #{self.class.name})" }
+      logger.info(tags: [:consumer, :start]) { "Batch Size: #{get.batch_size.inspect} (Consumer: #{self.class.name})" }
+      logger.info(tags: [:consumer, :start]) { "Group Member: #{group_member.inspect} (Consumer: #{self.class.name})" }
+      logger.info(tags: [:consumer, :start]) { "Group Size: #{group_size.inspect} (Consumer: #{self.class.name})" }
+      logger.info(tags: [:consumer, :start]) { "Condition: #{condition.inspect} (Consumer: #{self.class.name})" }
     end
 
     def starting
