@@ -30,11 +30,11 @@ module Consumer
     end
 
     def log_startup_info
-      logger.debug(tag: :*) { "Batch Size: #{get.batch_size.inspect}" }
-      logger.debug(tag: :*) { "Correlation: #{correlation.inspect}" }
-      logger.debug(tag: :*) { "Group Member: #{group_member.inspect}" }
-      logger.debug(tag: :*) { "Group Size: #{group_size.inspect}" }
-      logger.debug(tag: :*) { "Condition: #{condition.inspect}" }
+      logger.info(tags: [:consumer, :start]) { "Batch Size: #{get.batch_size.inspect}" }
+      logger.info(tags: [:consumer, :start]) { "Correlation: #{correlation.inspect}" }
+      logger.info(tags: [:consumer, :start]) { "Group Member: #{group_member.inspect}" }
+      logger.info(tags: [:consumer, :start]) { "Group Size: #{group_size.inspect}" }
+      logger.info(tags: [:consumer, :start]) { "Condition: #{condition.inspect}" }
     end
 
     def starting
