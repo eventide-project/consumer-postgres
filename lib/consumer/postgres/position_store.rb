@@ -29,6 +29,10 @@ module Consumer
         Messaging::Postgres::Write.configure(self, session: session)
       end
 
+      def location
+        stream_name
+      end
+
       def get
         message_data = read.(stream_name)
 
