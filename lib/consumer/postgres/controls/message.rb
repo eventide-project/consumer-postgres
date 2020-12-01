@@ -8,6 +8,8 @@ module Consumer
 
           message
         end
+
+        Metadata = Messaging::Controls::Metadata
       end
     end
   end

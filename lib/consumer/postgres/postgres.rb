@@ -39,14 +39,23 @@ module Consumer
       end
     end
 
-    def configure(batch_size: nil, settings: nil, correlation: nil, group_member: nil, group_size: nil, condition: nil)
+    # TODO: Remove deprecated settings argument that has been replaced with session_settings when no longer in use (Nathan Ladd, Mon Nov 30 2020)
+    def configure(session_settings: nil, batch_size: nil, correlation: nil, group_member: nil, group_size: nil, condition: nil, settings: nil)
       self.batch_size = batch_size
       self.correlation = correlation
       self.group_member = group_member
       self.group_size = group_size
       self.condition = condition
 
-      MessageStore::Postgres::Session.configure(self, settings: settings)
+      session_settings ||= settings
+
+      if not session_settings.nil?
+        if not session_settings.is_a?(::Settings)
+          session_settings = ::Settings.build(session_settings)
+        end
+      end
+
+      MessageStore::Postgres::Session.configure(self, settings: session_settings)
       session = self.session
 
       get_session = MessageStore::Postgres::Session.build(settings: settings)

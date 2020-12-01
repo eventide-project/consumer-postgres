@@ -1,27 +1,24 @@
-require_relative 'automated_init'
+require_relative '../automated_init'
 
-context "Configuration" do
-  stream_name = Controls::Category.example
-
-  correlation = 'someCorrelation'
-  condition = 'position = 0'
+context "Build" do
+  category = Controls::Category.example
+  session_settings = ::MessageStore::Postgres::Settings.instance
+  correlation = Controls::Message::Metadata.correlation_stream_name
+  batch_size = 1
   group_member = 0
   group_size = 1
-
-  batch_size = 11
-  poll_interval_milliseconds = 1111
-
-  settings = MessageStore::Postgres::Settings.instance
+  condition = 'position = 0'
+  identifier = Controls::Identifier.example
 
   consumer = Controls::Consumer::Example.build(
-    stream_name,
+    category,
+    session_settings: session_settings,
     correlation: correlation,
+    batch_size: batch_size,
     group_member: group_member,
     group_size: group_size,
     condition: condition,
-    batch_size: batch_size,
-    poll_interval_milliseconds: poll_interval_milliseconds,
-    settings: settings
+    identifier: identifier
   )
 
   context "Get" do
@@ -29,7 +26,7 @@ context "Configuration" do
 
     context "Stream Name" do
       test "Is set" do
-        assert(get.stream_name == stream_name)
+        assert(get.stream_name == category)
       end
     end
 
@@ -88,18 +85,18 @@ context "Configuration" do
     end
 
     context "Stream name" do
-      test "Category" do
-        control_category = MessageStore::StreamName.get_category(stream_name)
-        category = MessageStore::StreamName.get_category(position_store.stream_name)
+      position_stream = position_store.stream_name
 
-        assert(category == "#{control_category}:position")
+      test "Category" do
+        compare_category = MessageStore::StreamName.get_category(position_stream)
+
+        assert(compare_category == "#{category}:position")
       end
 
       test "ID" do
-        control_id = MessageStore::StreamName.get_id(stream_name)
-        id = MessageStore::StreamName.get_id(position_store.stream_name)
+        id = MessageStore::StreamName.get_id(position_stream)
 
-        assert(id == control_id)
+        assert(id == identifier)
       end
     end
   end
