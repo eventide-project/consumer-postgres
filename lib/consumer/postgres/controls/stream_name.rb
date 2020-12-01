@@ -1,7 +1,7 @@
 module Consumer
   module Postgres
     module Controls
-      StreamName = ::Consumer::Controls::StreamName
+      StreamName = Messaging::Controls::StreamName
 
       module StreamName
         module Position
@@ -11,7 +11,7 @@ module Consumer
 
             types << 'position'
 
-            StreamName.example(
+            Messaging::Controls::StreamName.example(
               id: id,
               category: category,
               types: types
