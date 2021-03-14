@@ -19,7 +19,7 @@ context "Position Store" do
 
       position_stream_name = Consumer::Postgres::PositionStore::StreamName.position_stream_name(category)
 
-      test "The position category type appears only once" do
+      test "Includes the position category type only once" do
         assert(position_stream_name == category)
       end
     end
@@ -33,7 +33,7 @@ context "Position Store" do
 
       control_stream_name = "#{category}:position-#{identifier}"
 
-      test "Identifier is appended" do
+      test "Identifier is appended as the stream ID" do
         assert(position_stream_name == control_stream_name)
       end
     end
@@ -54,7 +54,7 @@ context "Position Store" do
       end
     end
 
-    context "Stream name is given" do
+    context "Stream name (with ID)" do
       stream_name = Controls::StreamName.example
 
       test "Is an error" do
