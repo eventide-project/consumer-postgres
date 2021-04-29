@@ -40,6 +40,7 @@ module Consumer
     end
 
     ## Remove deprecated settings argument that has been replaced with session_settings when no longer in use (Nathan Ladd, Mon Nov 30 2020)
+    ## Under what conditions will the settings argument no longer be in use? (Scott Bellware, Thu Apr 29 2021)
     def configure(session_settings: nil, batch_size: nil, correlation: nil, group_member: nil, group_size: nil, condition: nil, settings: nil)
       self.batch_size = batch_size
       self.correlation = correlation
