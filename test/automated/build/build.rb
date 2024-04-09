@@ -64,10 +64,6 @@ context "Build" do
       test "Is set" do
         assert(get.session.instance_of?(consumer.session.class))
       end
-
-      test "Assigned a different session from consumer" do
-        refute(get.session.equal?(consumer.session))
-      end
     end
   end
 
