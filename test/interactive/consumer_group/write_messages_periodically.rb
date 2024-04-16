@@ -10,13 +10,8 @@ period = (ENV['PERIOD'] || 300).to_i
 category = ENV['CATEGORY'] || 'testPostgresConsumerGroup'
 logger.info "Category: #{category}"
 
-stream_names = [
-  Controls::StreamName.example(category: category),
-  Controls::StreamName.example(category: SecureRandom.hex)
-]
-
 loop do
-  stream_name = stream_names.sample
+  stream_name = Controls::StreamName.example(category: category)
 
   message = Controls::Message.example
 

@@ -59,8 +59,6 @@ module Consumer
       MessageStore::Postgres::Session.configure(self, settings: session_settings)
       session = self.session
 
-      get_session = MessageStore::Postgres::Session.build(settings: settings)
-
       MessageStore::Postgres::Get::Category.configure(
         self,
         category,
@@ -69,7 +67,7 @@ module Consumer
         consumer_group_member: group_member,
         consumer_group_size: group_size,
         condition: condition,
-        session: get_session
+        session: session
       )
 
       PositionStore.configure(
